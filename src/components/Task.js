@@ -1,6 +1,13 @@
-const Task = ({task}) => {
+import Checkbox from "./Checkbox"
+import Delete from "./Delete"
+
+const Task = ({task, handleDelete}) => {
     return (
-        <p className="Task">{task.title}</p>
+        <div className="Task">
+            <p className="Task__Text">{task.title}</p>
+            <Checkbox task={task} />
+            <Delete task={task} handleDelete={handleDelete} />
+        </div>
     )
 }
 
