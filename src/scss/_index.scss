@@ -18,10 +18,55 @@ body {
   margin: 2.5rem;
   display: flex;
   flex-direction: column;
+  align-items: center;
 
   &__Title {
     text-align: center;
-    font-size: 4.5rem;
+    font-size: 3.5rem;
+  }
+
+  &__Add {
+    @media (min-width: 768px) {
+      width: 50%;
+  }
+  width: 100%;
+    padding: 1rem 0rem;
+    border: 1px solid #fafafa;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+
+    .inputDiv {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .input {
+      width: 80%;
+      border: none;
+      background-color: $darker;
+      color: #fafafa;
+      text-align: center;
+      border-radius: .33rem;
+    }
+
+    .submit {
+      color: #fafafa;
+      background-color: $darker;
+      border: none;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 1rem;
+      cursor: pointer;
+      opacity: 0.5;
+      transition: all 100ms ease-in-out;
+    }
+
+    .submit:hover {
+      opacity: 1;
+    }
   }
 
   &__Tasks {
@@ -43,11 +88,17 @@ body {
         padding: 1rem;
 
         display: grid;
-        grid-template-columns: 80% 10% 10%;
+        grid-template-columns: 90% 10%;
         align-items: center;
+        cursor: pointer;
 
         &__Text {
             word-wrap: break-word;
+        }
+
+        .complete {
+          text-decoration: line-through;
+          opacity: 0.5;
         }
 
         &__Checkbox {

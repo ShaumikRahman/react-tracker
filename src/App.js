@@ -1,50 +1,74 @@
 import Title from "./components/Title";
 import Tasks from "./components/Tasks";
+import AddTask from "./components/AddTask";
 import { useState } from "react";
 
 function App() {
-  const [tasks] = useState([
+  const [tasks, setTasks] = useState([
     {
-      "userId": 1,
-      "id": 1,
-      "title": "Take the trash out",
-      "completed": false
+      id: 1,
+      title: "Take the trash out",
+      completed: false,
     },
     {
-      "userId": 1,
-      "id": 2,
-      "title": "Clean",
-      "completed": false
+      id: 2,
+      title: "Clean",
+      completed: false,
     },
     {
-      "userId": 1,
-      "id": 3,
-      "title": "Fix fridge",
-      "completed": false
+      id: 3,
+      title: "Fix fridge",
+      completed: false,
     },
     {
-      "userId": 1,
-      "id": 4,
-      "title": "Eat dinnerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
-      "completed": true
+      id: 4,
+      title:
+        "Eat dinnerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+      completed: true,
     },
     {
-      "userId": 1,
-      "id": 5,
-      "title": "Move boxes",
-      "completed": false
-    }
-  ]
-  );
+      id: 5,
+      title: "Move boxes",
+      completed: false,
+    },
+  ]);
 
   const deleteTask = (id) => {
     console.log(`deleted task with id ${id}`);
-  }
+    setTasks(tasks.filter((task) => task.id !== id));
+  };
+
+  const toggleComplete = (id, status) => {
+    console.log(`toggled status of task ${id} from ${status} to ${!status}`);
+    setTasks(
+      tasks.map((task) => {
+        if (task.id === id) {
+          task.completed = !task.completed;
+          return task;
+        } else {
+          return task;
+        }
+      })
+    );
+  };
+
+  const addTask = (text) => {
+    setTasks([...tasks, {
+      id: Math.floor(Math.random() * 10000),
+      title: `${text}`,
+      completed: false
+    }]);
+  };
 
   return (
     <div className="App">
       <Title />
-      <Tasks tasks={tasks} handleDelete={deleteTask}/>
+      <AddTask addTask={addTask} />
+      <Tasks
+        tasks={tasks}
+        toggleComplete={toggleComplete}
+        handleDelete={deleteTask}
+      />
     </div>
   );
 }

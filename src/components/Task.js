@@ -1,14 +1,33 @@
-import Checkbox from "./Checkbox"
-import Delete from "./Delete"
+import Delete from "./Delete";
+import TaskText from "./TaskText";
 
-const Task = ({task, handleDelete}) => {
+const Task = ({ task, handleDelete, toggleComplete }) => {
+  const complete = task.completed;
+  if (complete) {
     return (
-        <div className="Task">
-            <p className="Task__Text">{task.title}</p>
-            <Checkbox task={task} />
-            <Delete task={task} handleDelete={handleDelete} />
-        </div>
-    )
-}
+      <div
+        className="Task"
+        onClick={() => {
+          toggleComplete(task.id, task.completed);
+        }}
+      >
+        <TaskText task={task} />
+        <Delete task={task} handleDelete={handleDelete} />
+      </div>
+    );
+  } else {
+    return (
+      <div
+        className="Task"
+        onClick={() => {
+          toggleComplete(task.id, task.completed);
+        }}
+      >
+        <TaskText task={task} />
+        <Delete task={task} handleDelete={handleDelete} />
+      </div>
+    );
+  }
+};
 
-export default Task
+export default Task;
