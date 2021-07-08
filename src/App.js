@@ -4,38 +4,48 @@ import AddTask from "./components/AddTask";
 import { useState } from "react";
 
 function App() {
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      title: "Take the trash out",
-      completed: false,
-    },
-    {
-      id: 2,
-      title: "Clean",
-      completed: false,
-    },
-    {
-      id: 3,
-      title: "Fix fridge",
-      completed: false,
-    },
-    {
-      id: 4,
-      title:
-        "Eat dinnerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
-      completed: true,
-    },
-    {
-      id: 5,
-      title: "Move boxes",
-      completed: false,
-    },
-  ]);
+  let state;
+  if (localStorage.getItem("tasks") == null) {
+    localStorage.setItem(
+      "tasks",
+      JSON.stringify([
+        {
+          id: 1,
+          title: "Take the trash out",
+          completed: false,
+        },
+        {
+          id: 2,
+          title: "Clean",
+          completed: false,
+        },
+        {
+          id: 3,
+          title: "Fix fridge",
+          completed: false,
+        },
+        {
+          id: 4,
+          title: "Eat dinner",
+          completed: true,
+        },
+        {
+          id: 5,
+          title: "Move boxes",
+          completed: false,
+        },
+      ])
+    );
+  } else {
+    state = JSON.parse(localStorage.getItem("tasks"));
+  }
+
+  const [tasks, setTasks] = useState(state);
 
   const deleteTask = (id) => {
     console.log(`deleted task with id ${id}`);
     setTasks(tasks.filter((task) => task.id !== id));
+    localStorage.setItem('tasks', JSON.stringify(tasks.filter((task) => task.id !== id)));
   };
 
   const toggleComplete = (id, status) => {
@@ -50,14 +60,24 @@ function App() {
         }
       })
     );
+
+    localStorage.setItem('tasks', JSON.stringify(tasks));
   };
 
   const addTask = (text) => {
-    setTasks([...tasks, {
+    setTasks([
+      ...tasks,
+      {
+        id: Math.floor(Math.random() * 10000),
+        title: `${text}`,
+        completed: false,
+      },
+    ]);
+    localStorage.setItem("tasks", JSON.stringify(tasks.push({
       id: Math.floor(Math.random() * 10000),
       title: `${text}`,
-      completed: false
-    }]);
+      completed: false,
+    })));
   };
 
   return (
