@@ -1,41 +1,45 @@
 import Title from "./components/Title";
 import Tasks from "./components/Tasks";
 import AddTask from "./components/AddTask";
-import { useState } from "react";
+import Footer from "./components/Footer";
+import uniqid from 'uniqid';
+import { useState, useEffect } from "react";
 
 function App() {
   let state;
   if (localStorage.getItem("tasks") == null) {
+    console.log("no tasks");
     localStorage.setItem(
       "tasks",
       JSON.stringify([
         {
-          id: 1,
+          id: uniqid(),
           title: "Take the trash out",
           completed: false,
         },
         {
-          id: 2,
+          id: uniqid(),
           title: "Clean",
           completed: false,
         },
         {
-          id: 3,
+          id: uniqid(),
           title: "Fix fridge",
           completed: false,
         },
         {
-          id: 4,
+          id: uniqid(),
           title: "Eat dinner",
           completed: true,
         },
         {
-          id: 5,
+          id: uniqid(),
           title: "Move boxes",
           completed: false,
         },
       ])
     );
+    //state = JSON.parse(localStorage.getItem("tasks"));
   } else {
     state = JSON.parse(localStorage.getItem("tasks"));
   }
@@ -45,7 +49,10 @@ function App() {
   const deleteTask = (id) => {
     console.log(`deleted task with id ${id}`);
     setTasks(tasks.filter((task) => task.id !== id));
-    localStorage.setItem('tasks', JSON.stringify(tasks.filter((task) => task.id !== id)));
+    localStorage.setItem(
+      "tasks",
+      JSON.stringify(tasks.filter((task) => task.id !== id))
+    );
   };
 
   const toggleComplete = (id, status) => {
@@ -61,24 +68,30 @@ function App() {
       })
     );
 
-    localStorage.setItem('tasks', JSON.stringify(tasks));
+    localStorage.setItem("tasks", JSON.stringify(tasks));
   };
 
   const addTask = (text) => {
     setTasks([
       ...tasks,
       {
-        id: Math.floor(Math.random() * 10000),
+        id: uniqid(),
         title: `${text}`,
         completed: false,
-      },
-    ]);
-    localStorage.setItem("tasks", JSON.stringify(tasks.push({
-      id: Math.floor(Math.random() * 10000),
-      title: `${text}`,
-      completed: false,
-    })));
+      }
+    ]
+    );
   };
+
+  useEffect(() => {
+    console.log(tasks);
+    localStorage.setItem(
+      "tasks",
+      JSON.stringify(
+        tasks
+      )
+    );
+  }, [tasks]);
 
   return (
     <div className="App">
@@ -89,6 +102,7 @@ function App() {
         toggleComplete={toggleComplete}
         handleDelete={deleteTask}
       />
+      <Footer />
     </div>
   );
 }
